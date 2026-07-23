@@ -1,0 +1,26 @@
+data:
+  data_dir:      /mnt/share/ali/matched        # sub-folders: video_id/video_id.mp4 + video_id.xlsx
+  splits_json:   /mnt/share/ali/surgical_assessment/splits/splits.json
+  report_dir:    /mnt/share/ali/surgical_assessment_v2/reports
+  internvl_model: /mnt/share/ali/Models_downloading_testing/hub/models--OpenGVLab--InternVL3_5-1B/snapshots/2f71cf52542334823e48a46ffba0e2bc9add3446
+
+video:
+  frame_size: 448
+
+windowing:
+  window_sec:      30.0   # window size for both training and inference (no stride anywhere)
+  n_frames:         8     # frames uniformly sampled per window / period
+  max_bg_ratio:     3.0   # cap background samples at 3× step samples per video
+  min_period_sec:   2.0   # skip any labeled period shorter than this
+
+training:
+  epochs:          20
+  patience:         5
+  lr:          0.0002
+  weight_decay:  0.01
+  checkpoint_dir: /mnt/share/ali/surgical_assessment_v2/checkpoints
+
+inference:
+  checkpoint:         /mnt/share/ali/surgical_assessment_v2/checkpoints/best_vlm.pth
+  smooth_window:       5    # median-filter kernel (in windows, must be odd)
+  min_segment_frames:  2    # minimum consecutive windows to keep a predicted segment
